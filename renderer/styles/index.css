@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Reset / base ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+  overflow: hidden;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #161b22; }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+/* ── Drag region for frameless window ──────────────────────────────────── */
+.drag-region { -webkit-app-region: drag; }
+.no-drag      { -webkit-app-region: no-drag; }
+
+/* ── Glass card ─────────────────────────────────────────────────────────── */
+.glass {
+  background: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(48, 54, 61, 0.8);
+}
+
+/* ── Active glow ────────────────────────────────────────────────────────── */
+.active-glow {
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5), 0 4px 20px rgba(34, 197, 94, 0.1);
+}
+
+/* ── Button base ────────────────────────────────────────────────────────── */
+.btn {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-150 cursor-pointer select-none;
+}
+.btn:focus-visible { @apply outline-none ring-2 ring-brand-500; }
+.btn:disabled { @apply opacity-40 cursor-not-allowed; }
+
+.btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-500 active:bg-brand-700;
+}
+.btn-secondary {
+  @apply btn bg-surface-700 text-gray-300 hover:bg-surface-600 border border-surface-600;
+}
+.btn-danger {
+  @apply btn bg-transparent text-red-400 hover:bg-red-900/30 border border-red-900/50;
+}
+.btn-ghost {
+  @apply btn text-gray-400 hover:text-white hover:bg-surface-700;
+}
+
+/* ── Input ──────────────────────────────────────────────────────────────── */
+.input {
+  @apply w-full px-3 py-2 rounded-lg bg-surface-700 border border-surface-600
+         text-white text-sm placeholder-gray-500
+         focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent
+         transition-all duration-150;
+}
+
+/* ── Badge ──────────────────────────────────────────────────────────────── */
+.badge-active {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold
+         bg-brand-500/15 text-brand-500 border border-brand-500/30;
+}
+.badge-ssh {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
+         bg-sky-500/10 text-sky-400 border border-sky-500/20;
+}
+.badge-https {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
+         bg-purple-500/10 text-purple-400 border border-purple-500/20;
+}
+
+/* ── Animation helpers ──────────────────────────────────────────────────── */
+.fade-in  { animation: fadeIn  0.2s ease-out; }
+.slide-up { animation: slideUp 0.25s ease-out; }
+
+@keyframes fadeIn  { from { opacity: 0; }                         to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

@@ -1,0 +1,57 @@
+{
+  "name": "github-switcher",
+  "version": "1.0.4",
+  "description": "Switch between multiple GitHub accounts globally with a single click",
+  "type": "module",
+  "main": "main/index.cjs",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:electron\"",
+    "dev:renderer": "vite --port 5173",
+    "dev:electron": "wait-on http://localhost:5173 && electron .",
+    "build:renderer": "vite build",
+    "build": "npm run build:renderer && electron-builder",
+    "pack": "electron-builder --dir"
+  },
+  "keywords": ["github", "git", "switcher", "ssh", "accounts"],
+  "author": "GitHub Switcher",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.18",
+    "concurrently": "^8.2.2",
+    "electron": "^29.1.0",
+    "electron-builder": "^24.13.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.4",
+    "wait-on": "^7.2.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "keytar": "^7.9.0",
+    "node-forge": "^1.3.1",
+    "electron-store": "^8.2.0"
+  },
+  "build": {
+    "appId": "com.githubswitcher.app",
+    "productName": "GitHub Switcher",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main/**/*",
+      "dist/**/*",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
