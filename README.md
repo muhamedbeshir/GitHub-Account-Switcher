@@ -8,11 +8,7 @@ A production-ready desktop tool that lets you switch between multiple GitHub acc
 
 | Feature | Details |
 |---|---|
-| **One-click switch** | Updates `git config --global` user.name + email instantly |
-| **SSH key management** | Auto-detects keys, generates ed25519 pairs, rewrites `~/.ssh/config` safely |
-| **HTTPS/PAT support** | Personal Access Tokens stored AES-256-GCM encrypted |
-| **Connection test** | Tests live SSH auth against `github.com` |
-| **Status log** | Real-time terminal-style log of every operation |
+| **Local Repository Sync** | Automatically updates `.git/config` for linked local projects |
 | **Dark UI** | GitHub-inspired dark theme with smooth animations |
 
 ---
@@ -142,3 +138,10 @@ github-switcher/
 5. If you generated a key, copy the public key shown and add it to [GitHub → Settings → SSH keys](https://github.com/settings/keys)
 6. Click **⚡ Test** to verify the connection
 7. Click **⇄ Switch** to activate the account
+
+---
+
+## Support & Developer
+Developed with precision for a seamless multi-account workflow.
+
+**Contact (WhatsApp/Call):** [+201555556932](tel:+201555556932)

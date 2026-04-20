@@ -1,7 +1,7 @@
 {
   "name": "github-switcher",
-  "version": "1.0.4",
-  "description": "Switch between multiple GitHub accounts globally with a single click",
+  "version": "1.1.0",
+  "description": "Switch between multiple GitHub accounts globally and locally with a single click. Support: +201555556932",
   "type": "module",
   "main": "main/index.cjs",
   "scripts": {
@@ -13,7 +13,7 @@
     "pack": "electron-builder --dir"
   },
   "keywords": ["github", "git", "switcher", "ssh", "accounts"],
-  "author": "GitHub Switcher",
+  "author": "Muhamed Beshir (+201555556932)",
   "license": "MIT",
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
