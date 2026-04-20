@@ -14,21 +14,25 @@ function execGit(args, opts = {}) {
   }).trim();
 }
 
-/** Get the current global git user */
-function getGitUser() {
+/** Get the current git user (global by default, or local if cwd provided) */
+function getGitUser(cwd = null) {
+  const scope = cwd ? '--local' : '--global';
+  const opts = cwd ? { cwd } : {};
   try {
-    const name  = execGit('config --global user.name');
-    const email = execGit('config --global user.email');
+    const name  = execGit(`config ${scope} user.name`, opts);
+    const email = execGit(`config ${scope} user.email`, opts);
     return { name, email };
   } catch {
     return { name: '', email: '' };
   }
 }
 
-/** Set global git user.name and user.email */
-function setGitUser(name, email) {
-  execGit(`config --global user.name "${name}"`);
-  execGit(`config --global user.email "${email}"`);
+/** Set git user.name and user.email (global or local) */
+function setGitUser(name, email, cwd = null) {
+  const scope = cwd ? '--local' : '--global';
+  const opts = cwd ? { cwd } : {};
+  execGit(`config ${scope} user.name "${name}"`, opts);
+  execGit(`config ${scope} user.email "${email}"`, opts);
 }
 
 /** Verify git is installed and accessible */

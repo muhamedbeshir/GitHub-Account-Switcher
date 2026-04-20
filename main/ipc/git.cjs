@@ -77,13 +77,27 @@ function registerGitHandlers(ipcMain) {
 
   // ── Scopes ───────────────────────────────────────────────────
   ipcMain.handle('repo:detectRemote', async (_e, cwd) => {
-    const { getRemoteUrl } = require('../services/gitConfig.cjs');
-    return { url: getRemoteUrl(cwd) };
+    const { getRemoteUrl, setGitUser } = require('../services/gitConfig.cjs');
+    const { addProject, getActiveAccount } = require('../services/accountStore.cjs');
+    const url = getRemoteUrl(cwd);
+    if (url) {
+      addProject(cwd);
+      const active = getActiveAccount();
+      if (active) setGitUser(active.username, active.email, cwd);
+    }
+    return { url };
   });
 
   ipcMain.handle('repo:convertToSsh', async (_e, cwd) => {
-    const { convertToSsh } = require('../services/gitConfig.cjs');
-    return convertToSsh(cwd);
+    const { convertToSsh, setGitUser } = require('../services/gitConfig.cjs');
+    const { addProject, getActiveAccount } = require('../services/accountStore.cjs');
+    const res = await convertToSsh(cwd);
+    if (res.ok) {
+      addProject(cwd);
+      const active = getActiveAccount();
+      if (active) setGitUser(active.username, active.email, cwd);
+    }
+    return res;
   });
 
   ipcMain.handle('dialog:selectFolder', async () => {

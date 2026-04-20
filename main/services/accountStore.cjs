@@ -104,6 +104,28 @@ function getRawToken(id) {
   try { return decrypt(acc.token); } catch { return null; }
 }
 
+// ── Project Management ────────────────────────────────────────────────────────
+function getProjects() {
+  const store = readStore();
+  return store.projects || [];
+}
+
+function addProject(path) {
+  const store = readStore();
+  if (!store.projects) store.projects = [];
+  if (!store.projects.includes(path)) {
+    store.projects.push(path);
+    writeStore(store);
+  }
+}
+
+function removeProject(path) {
+  const store = readStore();
+  if (!store.projects) return;
+  store.projects = store.projects.filter((p) => p !== path);
+  writeStore(store);
+}
+
 module.exports = {
   getAllAccounts,
   addAccount,
@@ -111,4 +133,7 @@ module.exports = {
   getActiveAccount,
   setActiveAccount,
   getRawToken,
+  getProjects,
+  addProject,
+  removeProject,
 };

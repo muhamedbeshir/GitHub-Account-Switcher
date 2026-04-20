@@ -76,6 +76,17 @@ function registerAccountHandlers(ipcMain) {
       log(win, 'info', `Switching to → ${account.username}…`);
 
       setGitUser(account.username, account.email);
+      
+      // Update local config for all registered projects
+      const projects = store.getProjects();
+      projects.forEach((proj) => {
+        try {
+          setGitUser(account.username, account.email, proj);
+        } catch (e) {
+          log(win, 'warning', `Could not update local config for: ${proj}`);
+        }
+      });
+
       const all = store.getAllAccounts();
       applySshConfig(all, id);
 
