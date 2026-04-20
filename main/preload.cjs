@@ -15,7 +15,12 @@ contextBridge.exposeInMainWorld('api', {
   // ── Git / SSH ────────────────────────────────────────────────
   testConnection: (id)     => ipcRenderer.invoke('git:test', id),
   scanSshKeys:    ()       => ipcRenderer.invoke('ssh:scan'),
-  generateSshKey: (email)  => ipcRenderer.invoke('ssh:generate', email),
+  generateSshKey: (data)   => ipcRenderer.invoke('ssh:generate', data),
+  
+  // ── Repo Management ──────────────────────────────────────────
+  selectFolder:   ()       => ipcRenderer.invoke('dialog:selectFolder'),
+  detectRemote:   (path)   => ipcRenderer.invoke('repo:detectRemote', path),
+  convertToSsh:   (path)   => ipcRenderer.invoke('repo:convertToSsh', path),
 
   // ── Events from main → renderer ──────────────────────────────
   onLog: (cb) => {

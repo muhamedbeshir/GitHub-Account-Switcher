@@ -68,6 +68,31 @@ export function useAccounts() {
   const scanSshKeys = useCallback(async () => {
     return window.api.scanSshKeys();
   }, []);
+  
+  const fixProjectSsh = useCallback(async () => {
+    const folder = await window.api.selectFolder();
+    if (!folder) return;
+    
+    setLogs((prev) => [{ type: 'info', message: `Checking: ${folder}`, ts: new Date().toISOString() }, ...prev]);
+    
+    const { url } = await window.api.detectRemote(folder);
+    if (!url) {
+      setLogs((prev) => [{ type: 'error', message: `✖ Not a git repo: ${folder}`, ts: new Date().toISOString() }, ...prev]);
+      return;
+    }
+    
+    if (url.startsWith('git@github.com:')) {
+      setLogs((prev) => [{ type: 'success', message: `✔ Already SSH: ${url}`, ts: new Date().toISOString() }, ...prev]);
+      return;
+    }
+    
+    const res = await window.api.convertToSsh(folder);
+    if (res.ok) {
+      setLogs((prev) => [{ type: 'success', message: `🎉 Fixed! Remote set to SSH`, ts: new Date().toISOString() }, ...prev]);
+    } else {
+      setLogs((prev) => [{ type: 'error', message: `✖ Fix failed: ${res.error}`, ts: new Date().toISOString() }, ...prev]);
+    }
+  }, []);
 
   const clearLogs = useCallback(() => setLogs([]), []);
 
@@ -106,6 +131,7 @@ export function useAccounts() {
     testConnection,
     generateSshKey,
     scanSshKeys,
+    fixProjectSsh,
     clearLogs,
   };
 }

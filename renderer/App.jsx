@@ -9,7 +9,7 @@ export default function App() {
   const {
     accounts, loading, switching, logs,
     addAccount, deleteAccount, switchAccount,
-    testConnection, generateSshKey, scanSshKeys,
+    testConnection, generateSshKey, scanSshKeys, fixProjectSsh,
     clearLogs,
   } = useAccounts();
 
@@ -33,13 +33,25 @@ export default function App() {
               <span className="text-sm font-semibold text-white">Accounts</span>
               <span className="ml-2 text-xs text-gray-500">({accounts.length})</span>
             </div>
-            <button
-              id="add-account-btn"
-              className="btn-primary"
-              onClick={() => setShowModal(true)}
-            >
-              + Add Account
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-white bg-surface-700 hover:bg-surface-600 rounded-lg border border-surface-600 transition-all flex items-center gap-2"
+                onClick={fixProjectSsh}
+                title="Convert a project from HTTPS to SSH to fix IDE account switching"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Fix IDE Sync
+              </button>
+              <button
+                id="add-account-btn"
+                className="btn-primary"
+                onClick={() => setShowModal(true)}
+              >
+                + Add Account
+              </button>
+            </div>
           </div>
 
           {/* Account cards */}

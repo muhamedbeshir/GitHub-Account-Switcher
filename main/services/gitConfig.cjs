@@ -41,4 +41,33 @@ function isGitInstalled() {
   }
 }
 
-module.exports = { getGitUser, setGitUser, isGitInstalled };
+/** Get remote URL of a specific directory */
+function getRemoteUrl(cwd) {
+  try {
+    return execGit('remote get-url origin', { cwd });
+  } catch {
+    return null;
+  }
+}
+
+/** Convert HTTPS URL to SSH URL for origin */
+function convertToSsh(cwd) {
+  const url = getRemoteUrl(cwd);
+  if (!url) return { ok: false, error: 'No remote "origin" found' };
+  
+  if (url.startsWith('https://github.com/')) {
+    // Extract user/repo from https://github.com/user/repo.git or similar
+    const cleanUrl = url.replace('https://github.com/', '').replace(/\.git$/, '');
+    const sshUrl = `git@github.com:${cleanUrl}.git`;
+    execGit(`remote set-url origin "${sshUrl}"`, { cwd });
+    return { ok: true, newUrl: sshUrl };
+  }
+  
+  if (url.startsWith('git@github.com:')) {
+     return { ok: true, message: 'Already using SSH', url };
+  }
+
+  return { ok: false, error: 'Not a GitHub HTTPS URL' };
+}
+
+module.exports = { getGitUser, setGitUser, isGitInstalled, getRemoteUrl, convertToSsh };

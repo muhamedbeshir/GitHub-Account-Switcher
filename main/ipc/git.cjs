@@ -74,6 +74,26 @@ function registerGitHandlers(ipcMain) {
       return { ok: false, error: err.message };
     }
   });
+
+  // ── Scopes ───────────────────────────────────────────────────
+  ipcMain.handle('repo:detectRemote', async (_e, cwd) => {
+    const { getRemoteUrl } = require('../services/gitConfig.cjs');
+    return { url: getRemoteUrl(cwd) };
+  });
+
+  ipcMain.handle('repo:convertToSsh', async (_e, cwd) => {
+    const { convertToSsh } = require('../services/gitConfig.cjs');
+    return convertToSsh(cwd);
+  });
+
+  ipcMain.handle('dialog:selectFolder', async () => {
+    const { dialog } = require('electron');
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      properties: ['openDirectory']
+    });
+    if (canceled) return null;
+    return filePaths[0];
+  });
 }
 
 module.exports = { registerGitHandlers };
